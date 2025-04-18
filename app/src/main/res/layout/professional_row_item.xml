@@ -16,6 +16,15 @@
 
     </ImageView>
 
+
+    <TextView
+        android:id="@+id/professionalExpertise"
+        android:layout_width="378dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageProfessional"
+        android:text="Weight Loss"
+         />
+
     <TextView
         android:id="@+id/nameProfessional"
         android:layout_width="378dp"
