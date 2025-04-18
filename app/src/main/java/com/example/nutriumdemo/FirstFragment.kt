@@ -6,11 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.nutriumdemo.data.dto.Professional
 import com.example.nutriumdemo.data.remote.ProfessionalsApi
 import com.example.nutriumdemo.data.repository.ProfessionalsRepository
 import com.example.nutriumdemo.databinding.FragmentFirstBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -23,6 +28,9 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private var arrayInfo = arrayListOf<Professional>()
+    lateinit var recyclerView: RecyclerView
+    lateinit var professionalsAdapter:ProfessionalsAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,11 +44,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
 
 
-        }
         GlobalScope.launch {
             var lista = ProfessionalsRepository.getInstance().getProfessionals()
 
@@ -48,7 +53,20 @@ class FirstFragment : Fragment() {
 
             var professionais = ProfessionalsRepository.getInstance().getProfessionalDetails(5)
             println("Professionais " + professionais)
+            withContext(Dispatchers.Main) {
+                lista?.let { professionalsAdapter.updateData(it.professionals) }
+            }
         }
+
+
+        val dataset = arrayOf("January", "February", "March")
+        val customAdapter = (dataset)
+
+        professionalsAdapter = ProfessionalsAdapter(mutableListOf())
+        recyclerView = view.findViewById(R.id.myprofessionalsRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = professionalsAdapter
+
 
     }
 
