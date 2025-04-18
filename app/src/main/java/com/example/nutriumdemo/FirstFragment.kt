@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.nutriumdemo.data.remote.ProfessionalsApi
+import com.example.nutriumdemo.data.repository.ProfessionalsRepository
 import com.example.nutriumdemo.databinding.FragmentFirstBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -34,7 +38,22 @@ class FirstFragment : Fragment() {
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+
+
         }
+        GlobalScope.launch {
+            var lista = ProfessionalsRepository.getInstance().getProfessionals()
+
+            println(lista)
+
+            var professionais = ProfessionalsRepository.getInstance().getProfessionalDetails(5)
+            println("Professionais " + professionais)
+        }
+
+    }
+
+    suspend fun testApi(){
+
     }
 
     override fun onDestroyView() {

@@ -3,6 +3,8 @@ package com.example.nutriumdemo.data.remote
 import android.net.http.HttpResponseCache.install
 import com.example.nutriumdemo.data.dto.Professional
 import com.example.nutriumdemo.data.dto.ProfessionalDetails
+import com.example.nutriumdemo.data.dto.ProfessionalResponse
+import com.example.nutriumdemo.data.repository.ProfessionalRemoteSource
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.HttpClient
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +22,7 @@ import kotlinx.serialization.json.Json
 import retrofit2.Retrofit
 
 class ProfessionalsSourceImp (
-                               private val dispatcher: CoroutineDispatcher) : ProfessionalsApi{
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO)  : ProfessionalRemoteSource {
 
     val httpClient = HttpClient {
         install(ContentNegotiation) {
@@ -32,14 +34,16 @@ class ProfessionalsSourceImp (
         }
     }
 
-    override suspend fun searchProfessionals(): List<Professional> {
+
+    override suspend fun getProfessionals(): ProfessionalResponse? {
         return withContext(dispatcher) {
             try {
-                httpClient.get("https://api.example.com/professionals").body<List<Professional>>()
+                httpClient.get("https://nutrisearch.vercel.app/professionals/search").body<ProfessionalResponse>()
             } catch (e: Exception) {
+                e.printStackTrace()
                 // Log e/ou lançar erro customizado
                 println("Erro ao buscar profissionais: ${e.message}")
-                emptyList()
+                return@withContext null
             }
         }
     }
@@ -47,14 +51,24 @@ class ProfessionalsSourceImp (
     override suspend fun getProfessionalDetails(professionalId: Int): ProfessionalDetails? {
         return withContext(dispatcher) {
             try {
-                httpClient.get("https://api.example.com/professionals"){
-                    parameter("", professionalId.toString())
-                }.body<ProfessionalDetails>()
+                var url = "https://nutrisearch.vercel.app/professionals/"+professionalId.toString()
+                httpClient.get(url).body<ProfessionalDetails>()
             } catch (e: Exception) {
+                e.printStackTrace()
                 // Log e/ou lançar erro customizado
                 println("Erro ao buscar profissionais: ${e.message}")
                 return@withContext null
             }
+        }
+
+    }
+
+    companion object{
+        @Volatile
+        private var instance: ProfessionalsSourceImp? = null
+
+        fun getInstance() = instance ?: synchronized(this) {
+            instance?: ProfessionalsSourceImp().also { instance = it }
         }
     }
 

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    kotlin("plugin.serialization") version "1.8.0"
 }
 
 android {
@@ -64,5 +65,15 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.3.6")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("io.insert-koin:koin-android:3.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("io.ktor:ktor-client-json:2.x.x")
+
+    implementation("io.ktor:ktor-client-core:2.3.0")  // Substitua pela versão mais recente do Ktor
+    implementation("io.ktor:ktor-client-json:2.3.0")  // Para manipulação de JSON
+    implementation("io.ktor:ktor-client-serialization:2.3.0")  // Para serialização
+
+    // Kotlinx Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")  //
 
 }

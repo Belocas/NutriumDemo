@@ -22,7 +22,7 @@ data class ProfessionalResponse(
     val count: Int,
     val limit: Int,
     val offset: Int,
-    val professionals: List<Professional>
+    val professionals: Array<Professional>
 )
 
 @JsonClass(generateAdapter = true)
@@ -31,17 +31,16 @@ data class ProfessionalDetails(
     val id: Int,
     val name: String,
 
-    @Json(name ="about_me")
-    val aboutMe: String,
+    //TODO:IMVSC
+    val about_me: String,
 
     val expertise: List<String>,
     val languages: List<String>,
-
-    @Json(name ="profile_picture_url")
-    val profilePictureUrl: String,
+    //TODO:IMVSC
+    val profile_picture_url: String,
 
     val rating: Int,
 
-    @Json(name ="rating_count")
-    val ratingCount: Int
+    //TODO:IMVSC
+    val rating_count: Int
 )
