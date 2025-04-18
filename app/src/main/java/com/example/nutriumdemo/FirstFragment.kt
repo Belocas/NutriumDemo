@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,7 @@ import kotlinx.coroutines.withContext
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class FirstFragment : Fragment(), OnProfessionalClickListener {
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -62,7 +63,7 @@ class FirstFragment : Fragment() {
         val dataset = arrayOf("January", "February", "March")
         val customAdapter = (dataset)
 
-        professionalsAdapter = ProfessionalsAdapter(mutableListOf())
+        professionalsAdapter = ProfessionalsAdapter(mutableListOf(),this)
         recyclerView = view.findViewById(R.id.myprofessionalsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = professionalsAdapter
@@ -70,8 +71,8 @@ class FirstFragment : Fragment() {
 
     }
 
-    suspend fun testApi(){
-
+    override fun onProfessionalClick(id: Int) {
+        Toast.makeText(requireContext(), "Clicou em $id", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

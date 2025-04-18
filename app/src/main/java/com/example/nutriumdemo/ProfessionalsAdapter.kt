@@ -4,12 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.nutriumdemo.data.dto.Professional
 
-class ProfessionalsAdapter (private val dataSet: MutableList<Professional>): RecyclerView.Adapter<ProfessionalsAdapter.ViewHolder>(){
+interface OnProfessionalClickListener {
+    fun onProfessionalClick(id: Int)
+}
+
+
+class ProfessionalsAdapter (private val dataSet: MutableList<Professional>,
+                            private val clickListener: OnProfessionalClickListener,
+    ): RecyclerView.Adapter<ProfessionalsAdapter.ViewHolder>(){
 
 
     /**
@@ -17,16 +25,22 @@ class ProfessionalsAdapter (private val dataSet: MutableList<Professional>): Rec
      * (custom ViewHolder)
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun setOnClickListener(function: () -> Unit) {
+
+        }
+
         val nameProfessional: TextView
         val expertiseProfessional: TextView
         val languaguesProfessional: TextView
         val imageProfessional:ImageView
+        val rowProfessional: RelativeLayout
         init {
             // Define click listener for the ViewHolder's View
             nameProfessional = view.findViewById(R.id.nameProfessional)
             expertiseProfessional = view.findViewById(R.id.professionalExpertise)
             languaguesProfessional = view.findViewById(R.id.languageProfessionals)
             imageProfessional = view.findViewById(R.id.imageProfessional)
+            rowProfessional = view.findViewById(R.id.professionalRow)
         }
     }
 
@@ -52,6 +66,9 @@ class ProfessionalsAdapter (private val dataSet: MutableList<Professional>): Rec
             crossfade(true)
             placeholder(R.drawable.user)
             error(R.drawable.user)
+        }
+        viewHolder.rowProfessional.setOnClickListener {
+            clickListener.onProfessionalClick(dataSet[position].id)
         }
 
     }
