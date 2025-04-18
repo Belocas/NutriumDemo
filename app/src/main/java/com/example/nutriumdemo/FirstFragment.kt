@@ -73,6 +73,11 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
 
     override fun onProfessionalClick(id: Int) {
         Toast.makeText(requireContext(), "Clicou em $id", Toast.LENGTH_SHORT).show()
+
+        val newFragment = SecondFragment()
+
+        findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+
     }
 
     override fun onDestroyView() {
