@@ -49,7 +49,7 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spinner: Spinner = view.findViewById(R.id.spinnerDropdown)
+  /*      val spinner: Spinner = view.findViewById(R.id.spinnerDropdown)
 
         val options = listOf("Best for you", "Rating", "Most popular")
 
@@ -67,6 +67,19 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // nada selecionado
             }
+        }*/
+
+
+        val dropdown = view.findViewById<AutoCompleteTextView>(R.id.dropdownMenu)
+
+        val opcoes = listOf("Nutricionista", "Médico", "Fisioterapeuta")
+
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, opcoes)
+        dropdown.setAdapter(adapter)
+
+        dropdown.setOnItemClickListener { parent, _, position, _ ->
+            val selecionado = parent.getItemAtPosition(position).toString()
+            Toast.makeText(requireContext(), "Selecionou: $selecionado", Toast.LENGTH_SHORT).show()
         }
 
         GlobalScope.launch {

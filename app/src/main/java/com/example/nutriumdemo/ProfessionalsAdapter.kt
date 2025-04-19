@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ class ProfessionalsAdapter (private val dataSet: MutableList<Professional>,
         val languaguesProfessional: TextView
         val imageProfessional:ImageView
         val rowProfessional: RelativeLayout
+        val ratingView: RatingBar
         init {
             // Define click listener for the ViewHolder's View
             nameProfessional = view.findViewById(R.id.nameProfessional)
@@ -41,6 +43,7 @@ class ProfessionalsAdapter (private val dataSet: MutableList<Professional>,
             languaguesProfessional = view.findViewById(R.id.languageProfessionals)
             imageProfessional = view.findViewById(R.id.imageProfessional)
             rowProfessional = view.findViewById(R.id.professionalRow)
+            ratingView = view.findViewById(R.id.ratingBar)
         }
     }
 
@@ -61,6 +64,8 @@ class ProfessionalsAdapter (private val dataSet: MutableList<Professional>,
         viewHolder.nameProfessional.text = dataSet[position].name
         viewHolder.expertiseProfessional.text = dataSet[position].expertise.toString()
         viewHolder.languaguesProfessional.text = dataSet[position].languages.toString()
+        viewHolder.ratingView.numStars = 5
+        viewHolder.ratingView.rating = dataSet[position].rating.toFloat()
 
         viewHolder.imageProfessional.load(dataSet[position].profile_picture_url) {
             crossfade(true)
