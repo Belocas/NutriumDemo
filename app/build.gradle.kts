@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     kotlin("plugin.serialization") version "1.8.0"
+    id("androidx.navigation.safeargs.kotlin") version "2.7.7"
 }
 
 android {

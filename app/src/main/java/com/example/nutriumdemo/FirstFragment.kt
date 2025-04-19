@@ -19,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.ZoneOffset
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -72,7 +71,7 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
 
             println(lista)
 
-            var professionais = ProfessionalsRepository.getInstance().getProfessionalDetails(5)
+            var professionais = ProfessionalsRepository.getInstance().getProfessionalDetails("5")
             println("Professionais " + professionais)
             withContext(Dispatchers.Main) {
                 lista?.let { professionalsAdapter.updateData(it.professionals) }
@@ -107,7 +106,6 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
 
 
     fun loadMoreItems(limit:Int,offset: Int, sort:String) {
-        // Simula uma chamada async, substitui por chamada real depois
         CoroutineScope(Dispatchers.IO).launch {
             val lista = ProfessionalsRepository.getInstance().searchProfessionals(limit,offset,sort)
 
@@ -122,8 +120,9 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
         Toast.makeText(requireContext(), "Clicou em $id", Toast.LENGTH_SHORT).show()
 
         val newFragment = SecondFragment()
-
-        findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        //action_FirstFragment_to_SecondFragment(newFragment)
+        val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(userId = id.toString())
+        findNavController().navigate(action)
 
     }
 

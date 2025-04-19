@@ -20,9 +20,13 @@
         android:name="com.example.nutriumdemo.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
-
+        <argument
+            android:name="userId"
+            app:argType="string" />
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+
+
     </fragment>
 </navigation>

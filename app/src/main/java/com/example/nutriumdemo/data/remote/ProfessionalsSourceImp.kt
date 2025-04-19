@@ -51,10 +51,10 @@ class ProfessionalsSourceImp (
         }
     }
 
-    override suspend fun getProfessionalDetails(professionalId: Int): ProfessionalDetails? {
+    override suspend fun getProfessionalDetails(professionalId: String): ProfessionalDetails? {
         return withContext(dispatcher) {
             try {
-                var url = "https://nutrisearch.vercel.app/professionals/"+professionalId.toString()
+                var url = "https://nutrisearch.vercel.app/professionals/"+professionalId
                 httpClient.get(url).body<ProfessionalDetails>()
             } catch (e: Exception) {
                 e.printStackTrace()

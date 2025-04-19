@@ -15,7 +15,7 @@ class ProfessionalsRepository private constructor(
     }
 
 
-    suspend fun getProfessionalDetails(id: Int): ProfessionalDetails? {
+    suspend fun getProfessionalDetails(id: String): ProfessionalDetails? {
         return api.getProfessionalDetails(id)
     }
 
@@ -32,5 +32,5 @@ class ProfessionalsRepository private constructor(
 
 interface ProfessionalRemoteSource{
     suspend fun searchProfessionals(limit:Int, offset:Int, sort:String): ProfessionalResponse?
-    suspend fun getProfessionalDetails(id: Int): ProfessionalDetails?
+    suspend fun getProfessionalDetails(id: String): ProfessionalDetails?
 }
