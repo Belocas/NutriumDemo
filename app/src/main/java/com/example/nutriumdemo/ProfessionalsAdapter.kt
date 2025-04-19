@@ -81,10 +81,16 @@ class ProfessionalsAdapter (private val dataSet: MutableList<Professional>,
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
-    fun updateData(newItems: Array<Professional>) {
+    fun cleanData() {
         dataSet.clear()
+        notifyDataSetChanged()
+    }
+
+    fun updateData(newItems: Array<Professional>) {
+        val oldSize = dataSet.size
         dataSet.addAll(newItems)
-        notifyDataSetChanged() // Atualiza a lista inteira
+        notifyItemRangeInserted(oldSize, newItems.size)
+
     }
 
 }

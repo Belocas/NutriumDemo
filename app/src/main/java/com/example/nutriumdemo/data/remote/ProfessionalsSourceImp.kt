@@ -20,6 +20,7 @@ import kotlinx.serialization.json.Json
 
 
 import retrofit2.Retrofit
+import retrofit2.http.Path
 
 class ProfessionalsSourceImp (
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO)  : ProfessionalRemoteSource {
@@ -34,11 +35,13 @@ class ProfessionalsSourceImp (
         }
     }
 
-
-    override suspend fun getProfessionals(): ProfessionalResponse? {
+    override suspend fun searchProfessionals(limit:Int, offset:Int, sort:String): ProfessionalResponse?{
         return withContext(dispatcher) {
+
+            var url = "https://nutrisearch.vercel.app/professionals/search?limit="+limit+"&offset="+offset+"&sort_by="+sort.lowercase()
+            println("URL" + url)
             try {
-                httpClient.get("https://nutrisearch.vercel.app/professionals/search").body<ProfessionalResponse>()
+                httpClient.get(url).body<ProfessionalResponse>()
             } catch (e: Exception) {
                 e.printStackTrace()
                 // Log e/ou lançar erro customizado

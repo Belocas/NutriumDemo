@@ -2,11 +2,17 @@
     <string name="app_name">NutriumDemo</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
+    <string name="first_fragment_label">List professionals</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="select_option">Select option</string>
+    <string name="option_Menu_Best">Best for you</string>
+    <string name="option_Menu_Rating">Rating</string>
+    <string name="option_Menu_Most_Popular">Most Popular</string>
 
+
+    "Best for you", "Rating", "Most popular"
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
