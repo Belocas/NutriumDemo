@@ -11,9 +11,11 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.nutriumdemo.data.dao.DatabaseProvider
 import com.example.nutriumdemo.data.dto.Professional
 import com.example.nutriumdemo.data.repository.ProfessionalsRepository
 import com.example.nutriumdemo.databinding.FragmentFirstBinding
+import com.example.nutriumdemo.utils.ProfessionalMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -34,6 +36,7 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
     private var arrayInfo = arrayListOf<Professional>()
     var isLoading = false
     var sort:String = "best_match"
+    var currentIndex:Int = 0
     lateinit var recyclerView: RecyclerView
     lateinit var professionalsAdapter:ProfessionalsAdapter
     override fun onCreateView(
@@ -62,12 +65,14 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
             Toast.makeText(requireContext(), "Selecionou: $selecionado", Toast.LENGTH_SHORT).show()
             professionalsAdapter.cleanData()
             sort = optionsDropDown[position]
-            loadMoreItems(0,4,optionsDropDown[position])
+            currentIndex = 0
+            loadMoreItems(4,optionsDropDown[position])
 
         }
 
         GlobalScope.launch {
-            var lista = ProfessionalsRepository.getInstance().searchProfessionals(4,0,"best_match")
+            var lista =
+                ProfessionalsRepository.getInstance().searchProfessionals(4, 0, "best_match")
 
             println(lista)
 
@@ -76,8 +81,19 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
             withContext(Dispatchers.Main) {
                 lista?.let { professionalsAdapter.updateData(it.professionals) }
             }
-        }
+            lista?.let {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val db = DatabaseProvider.getDatabase(requireContext())
+                    var list = lista.professionals.toList()
+                    for (item in list){
+                        db.professionalDao().insertProfessional(ProfessionalMapper.fromNetwork(item))
+                    }
 
+                    /*db.professionalDao()
+                        .insertAll(ProfessionalMapper.fromNetworkList(lista.professionals.toMutableList()))*/
+                }
+            }
+        }
         professionalsAdapter = ProfessionalsAdapter(mutableListOf(),this)
         recyclerView = view.findViewById(R.id.myprofessionalsRecyclerView)
         val layoutManager = LinearLayoutManager(requireContext())
@@ -96,7 +112,7 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
                 val visibleThreshold = 2 // Quando faltar 2 itens, já começa a carregar
 
                 if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                    loadMoreItems(4,0,sort)
+                    loadMoreItems(0,sort)
                     isLoading = true
                 }
             }
@@ -105,9 +121,10 @@ class FirstFragment : Fragment(), OnProfessionalClickListener {
 
 
 
-    fun loadMoreItems(limit:Int,offset: Int, sort:String) {
+    fun loadMoreItems(offset: Int, sort:String) {
+        val defaultLoad = 4
         CoroutineScope(Dispatchers.IO).launch {
-            val lista = ProfessionalsRepository.getInstance().searchProfessionals(limit,offset,sort)
+            val lista = ProfessionalsRepository.getInstance().searchProfessionals(defaultLoad, currentIndex,sort)
 
             withContext(Dispatchers.Main) {
                 lista?.let { professionalsAdapter.updateData(it.professionals) }

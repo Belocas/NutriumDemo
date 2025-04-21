@@ -17,10 +17,12 @@
             android:layout_height="80dp"
             android:src="@drawable/user"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone">
         </ImageView>
 
         <RelativeLayout
+            android:id="@+id/relativeLayoutCard"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_marginEnd="16dp"
@@ -33,7 +35,8 @@
                 android:id="@+id/nameDetailsProfessional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TESTe" />
+                android:text="TESTe"
+                android:visibility="gone"/>
 
 
             <RatingBar
@@ -45,8 +48,17 @@
                 android:numStars="5"
                 android:rating="3"
                 android:stepSize="1"
+                android:visibility="gone"
                 />
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/aboutProfessional"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/imageDetailsProfessional"
+            tools:layout_editor_absoluteX="16dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

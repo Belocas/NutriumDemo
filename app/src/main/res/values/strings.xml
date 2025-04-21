@@ -3,13 +3,14 @@
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">List professionals</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="second_fragment_label"></string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="select_option">Select option</string>
     <string name="option_Menu_Best">Best for you</string>
     <string name="option_Menu_Rating">Rating</string>
     <string name="option_Menu_Most_Popular">Most Popular</string>
+    <string name="downloading">Please wait...</string>
 
 
     "Best for you", "Rating", "Most popular"
