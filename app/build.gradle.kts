@@ -85,4 +85,13 @@ dependencies {
     implementation("androidx.room:room-guava:2.5.0")
     testImplementation("androidx.room:room-testing:2.5.0")
     implementation("androidx.room:room-paging:2.5.0")
+
+
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("io.ktor:ktor-client-mock:2.3.1")  // ou a versão que você está utilizando no seu projeto
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")  // Para JUnit 5
+    implementation("org.slf4j:slf4j-api:1.7.32")
+    implementation ("ch.qos.logback:logback-classic:1.2.6")
 }
